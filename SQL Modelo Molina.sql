@@ -24,13 +24,13 @@ USE `loja_online` ;
 -- Table `loja_online`.`Cliente`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `loja_online`.`Cliente` (
-  `idCliente` INT NULL DEFAULT NULL AUTO_INCREMENT,
+  `id` INT NULL DEFAULT NULL AUTO_INCREMENT,
   `Nome` VARCHAR(50) NOT NULL,
   `CPF` CHAR(11) NOT NULL,
   `Email` VARCHAR(100) NULL DEFAULT NULL,
   `Telefone` VARCHAR(15) NULL DEFAULT NULL,
   `Data_Nascimento` DATE NULL DEFAULT NULL,
-  PRIMARY KEY (`idCliente`),
+  PRIMARY KEY (`id`),
   UNIQUE INDEX (`CPF` ASC) VISIBLE);
 
 
@@ -38,43 +38,43 @@ CREATE TABLE IF NOT EXISTS `loja_online`.`Cliente` (
 -- Table `loja_online`.`Endereco`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `loja_online`.`Endereco` (
-  `idEndereco` INT NULL DEFAULT NULL AUTO_INCREMENT,
+  `id` INT NULL DEFAULT NULL AUTO_INCREMENT,
   `CEP` CHAR(8) NULL DEFAULT NULL,
   `Numero` INT NULL DEFAULT NULL,
   `Complemento` VARCHAR(30) NULL DEFAULT NULL,
   `Cidade` VARCHAR(50) NULL DEFAULT NULL,
   `Estado` VARCHAR(50) NULL DEFAULT NULL,
   `Pais` VARCHAR(50) NULL DEFAULT NULL,
-  PRIMARY KEY (`idEndereco`));
+  PRIMARY KEY (`id`));
 
 
 -- -----------------------------------------------------
 -- Table `loja_online`.`Endereco_has_Cliente`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `loja_online`.`Endereco_has_Cliente` (
-  `Endereco_idEndereco` INT NULL DEFAULT NULL,
-  `Cliente_idCliente` INT NULL DEFAULT NULL,
-  PRIMARY KEY (`Endereco_idEndereco`, `Cliente_idCliente`),
-  INDEX (`Cliente_idCliente` ASC) VISIBLE,
+  `Endereco_id` INT NULL DEFAULT NULL,
+  `Cliente_id` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`Endereco_id`, `Cliente_id`),
+  INDEX (`Cliente_id` ASC) VISIBLE,
   CONSTRAINT ``
-    FOREIGN KEY (`Endereco_idEndereco`)
-    REFERENCES `loja_online`.`Endereco` (`idEndereco`),
+    FOREIGN KEY (`Endereco_id`)
+    REFERENCES `loja_online`.`Endereco` (`id`),
   CONSTRAINT ``
-    FOREIGN KEY (`Cliente_idCliente`)
-    REFERENCES `loja_online`.`Cliente` (`idCliente`));
+    FOREIGN KEY (`Cliente_id`)
+    REFERENCES `loja_online`.`Cliente` (`id`));
 
 
 -- -----------------------------------------------------
 -- Table `loja_online`.`Cartao`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `loja_online`.`Cartao` (
-  `idCartao` INT NULL AUTO_INCREMENT,
+  `id` INT NULL AUTO_INCREMENT,
   `Nome_Titular` VARCHAR(50) NULL DEFAULT NULL,
   `Numero` CHAR(16) NOT NULL,
   `Tipo` ENUM('Crédito', 'Débito') NULL DEFAULT NULL,
   `CVV` CHAR(3) NULL DEFAULT NULL,
   `Validade` DATE NULL DEFAULT NULL,
-  PRIMARY KEY (`idCartao`),
+  PRIMARY KEY (`id`),
   UNIQUE INDEX (`Numero` ASC) VISIBLE);
 
 
@@ -82,26 +82,26 @@ CREATE TABLE IF NOT EXISTS `loja_online`.`Cartao` (
 -- Table `loja_online`.`Cliente_has_Cartao`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `loja_online`.`Cliente_has_Cartao` (
-  `Cliente_idCliente` INT NULL DEFAULT NULL,
-  `Cartao_idCartao` INT NULL DEFAULT NULL,
-  PRIMARY KEY (`Cliente_idCliente`, `Cartao_idCartao`),
-  INDEX (`Cartao_idCartao` ASC) VISIBLE,
+  `Cliente_id` INT NULL DEFAULT NULL,
+  `Cartao_id` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`Cliente_id`, `Cartao_id`),
+  INDEX (`Cartao_id` ASC) VISIBLE,
   CONSTRAINT ``
-    FOREIGN KEY (`Cliente_idCliente`)
-    REFERENCES `loja_online`.`Cliente` (`idCliente`),
+    FOREIGN KEY (`Cliente_id`)
+    REFERENCES `loja_online`.`Cliente` (`id`),
   CONSTRAINT ``
-    FOREIGN KEY (`Cartao_idCartao`)
-    REFERENCES `loja_online`.`Cartao` (`idCartao`));
+    FOREIGN KEY (`Cartao_id`)
+    REFERENCES `loja_online`.`Cartao` (`id`));
 
 
 -- -----------------------------------------------------
 -- Table `loja_online`.`Vendedor`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `loja_online`.`Vendedor` (
-  `idVendedor` INT NULL DEFAULT NULL AUTO_INCREMENT,
+  `id` INT NULL DEFAULT NULL AUTO_INCREMENT,
   `Nome_Loja` VARCHAR(50) NOT NULL,
   `CNPJ` CHAR(14) NOT NULL,
-  PRIMARY KEY (`idVendedor`),
+  PRIMARY KEY (`id`),
   UNIQUE INDEX (`CNPJ` ASC) VISIBLE);
 
 
@@ -109,74 +109,74 @@ CREATE TABLE IF NOT EXISTS `loja_online`.`Vendedor` (
 -- Table `loja_online`.`Produto`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `loja_online`.`Produto` (
-  `idProduto` INT NULL DEFAULT NULL AUTO_INCREMENT,
+  `id` INT NULL DEFAULT NULL AUTO_INCREMENT,
   `Produto` VARCHAR(50) NOT NULL,
   `Descricao` TEXT NULL DEFAULT NULL,
   `Categoria` VARCHAR(50) NULL DEFAULT NULL,
   `Preco` DECIMAL(10,2) NOT NULL,
   `Estoque` INT NULL DEFAULT 0,
-  PRIMARY KEY (`idProduto`));
+  PRIMARY KEY (`id`));
 
 
 -- -----------------------------------------------------
 -- Table `loja_online`.`Vendedor_has_Produto`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `loja_online`.`Vendedor_has_Produto` (
-  `Vendedor_idVendedor` INT NULL DEFAULT NULL,
-  `Produto_idProduto` INT NULL DEFAULT NULL,
-  PRIMARY KEY (`Vendedor_idVendedor`, `Produto_idProduto`),
-  INDEX (`Produto_idProduto` ASC) VISIBLE,
+  `Vendedor_id` INT NULL DEFAULT NULL,
+  `Produto_id` INT NULL DEFAULT NULL,
+  PRIMARY KEY (`Vendedor_id`, `Produto_id`),
+  INDEX (`Produto_id` ASC) VISIBLE,
   CONSTRAINT ``
-    FOREIGN KEY (`Vendedor_idVendedor`)
-    REFERENCES `loja_online`.`Vendedor` (`idVendedor`),
+    FOREIGN KEY (`Vendedor_id`)
+    REFERENCES `loja_online`.`Vendedor` (`id`),
   CONSTRAINT ``
-    FOREIGN KEY (`Produto_idProduto`)
-    REFERENCES `loja_online`.`Produto` (`idProduto`));
+    FOREIGN KEY (`Produto_id`)
+    REFERENCES `loja_online`.`Produto` (`id`));
 
 
 -- -----------------------------------------------------
 -- Table `loja_online`.`Pedido`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `loja_online`.`Pedido` (
-  `idPedido` INT NULL DEFAULT NULL AUTO_INCREMENT,
-  `Cliente_idCliente` INT NOT NULL,
+  `id` INT NULL DEFAULT NULL AUTO_INCREMENT,
+  `Cliente_id` INT NOT NULL,
   `Data_Pedido` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Valor_Total` DECIMAL(10,2) NULL DEFAULT NULL,
   `Status` VARCHAR(20) NULL DEFAULT 'Pendente',
-  PRIMARY KEY (`idPedido`),
-  INDEX (`Cliente_idCliente` ASC) VISIBLE,
+  PRIMARY KEY (`id`),
+  INDEX (`Cliente_id` ASC) VISIBLE,
   CONSTRAINT ``
-    FOREIGN KEY (`Cliente_idCliente`)
-    REFERENCES `loja_online`.`Cliente` (`idCliente`));
+    FOREIGN KEY (`Cliente_id`)
+    REFERENCES `loja_online`.`Cliente` (`id`));
 
 
 -- -----------------------------------------------------
 -- Table `loja_online`.`Pedido_has_Produto`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `loja_online`.`Pedido_has_Produto` (
-  `Pedido_idPedido` INT NULL DEFAULT NULL,
-  `Produto_idProduto` INT NULL DEFAULT NULL,
+  `Pedido_id` INT NULL DEFAULT NULL,
+  `Produto_id` INT NULL DEFAULT NULL,
   `Quantidade` INT NOT NULL,
   `Preco_Unitario` DECIMAL(10,2) NULL DEFAULT NULL,
-  PRIMARY KEY (`Pedido_idPedido`, `Produto_idProduto`),
-  INDEX (`Produto_idProduto` ASC) VISIBLE,
+  PRIMARY KEY (`Pedido_id`, `Produto_id`),
+  INDEX (`Produto_id` ASC) VISIBLE,
   CONSTRAINT ``
-    FOREIGN KEY (`Pedido_idPedido`)
-    REFERENCES `loja_online`.`Pedido` (`idPedido`),
+    FOREIGN KEY (`Pedido_id`)
+    REFERENCES `loja_online`.`Pedido` (`id`),
   CONSTRAINT ``
-    FOREIGN KEY (`Produto_idProduto`)
-    REFERENCES `loja_online`.`Produto` (`idProduto`));
+    FOREIGN KEY (`Produto_id`)
+    REFERENCES `loja_online`.`Produto` (`id`));
 
 
 -- -----------------------------------------------------
 -- Table `loja_online`.`Entregador`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `loja_online`.`Entregador` (
-  `idEntregador` INT NULL DEFAULT NULL AUTO_INCREMENT,
+  `id` INT NULL DEFAULT NULL AUTO_INCREMENT,
   `Nome` VARCHAR(50) NULL DEFAULT NULL,
   `CPF` CHAR(11) NOT NULL,
   `Data_Nascimento` DATE NULL DEFAULT NULL,
-  PRIMARY KEY (`idEntregador`),
+  PRIMARY KEY (`id`),
   UNIQUE INDEX (`CPF` ASC) VISIBLE);
 
 
@@ -184,20 +184,20 @@ CREATE TABLE IF NOT EXISTS `loja_online`.`Entregador` (
 -- Table `loja_online`.`Entrega`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `loja_online`.`Entrega` (
-  `idEntrega` INT NULL DEFAULT NULL AUTO_INCREMENT,
-  `Pedido_idPedido` INT NOT NULL,
-  `Entregador_idEntregador` INT NULL DEFAULT NULL,
+  `id` INT NULL DEFAULT NULL AUTO_INCREMENT,
+  `Pedido_id` INT NOT NULL,
+  `Entregador_id` INT NULL DEFAULT NULL,
   `Data_Entrega` DATE NULL DEFAULT NULL,
   `Status` VARCHAR(20) NULL DEFAULT 'Em transporte',
-  PRIMARY KEY (`idEntrega`),
-  INDEX (`Pedido_idPedido` ASC) VISIBLE,
-  INDEX (`Entregador_idEntregador` ASC) VISIBLE,
+  PRIMARY KEY (`id`),
+  INDEX (`Pedido_id` ASC) VISIBLE,
+  INDEX (`Entregador_id` ASC) VISIBLE,
   CONSTRAINT ``
-    FOREIGN KEY (`Pedido_idPedido`)
-    REFERENCES `loja_online`.`Pedido` (`idPedido`),
+    FOREIGN KEY (`Pedido_id`)
+    REFERENCES `loja_online`.`Pedido` (`id`),
   CONSTRAINT ``
-    FOREIGN KEY (`Entregador_idEntregador`)
-    REFERENCES `loja_online`.`Entregador` (`idEntregador`));
+    FOREIGN KEY (`Entregador_id`)
+    REFERENCES `loja_online`.`Entregador` (`id`));
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
